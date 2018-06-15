@@ -47,17 +47,17 @@ class Grapher extends GrapherHook
 
         MonitoringState::apply($bp);
 
-        if (
-            filter_var($object->_service_icingacli_businessprocess_grapher_tree, FILTER_VALIDATE_BOOLEAN)
-        ) {
+        if (filter_var($object->_service_icingacli_businessprocess_grapher_tree, FILTER_VALIDATE_BOOLEAN)) {
             $renderer = new TreeRenderer($bp);
-        }
-        else {
+        } else {
             $renderer = new TileRenderer($bp);
         }
 
         $renderer->setBaseUrl(Url::fromPath('businessprocess/process/show?config=' . $bpName . '&node=' . $bpName));
 
-        return '<div class="icinga-module module-businessprocess"><h2>Business Process</h2>' . $renderer->render() . '</div>';
+        $html = '<div class="icinga-module module-businessprocess"><h2>Business Process</h2>';
+        $html = $html . $renderer->render() . '</div>';
+        return $html
     }
 }
+
