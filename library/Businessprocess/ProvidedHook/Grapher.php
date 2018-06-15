@@ -60,4 +60,3 @@ class Grapher extends GrapherHook
         return $html
     }
 }
-
