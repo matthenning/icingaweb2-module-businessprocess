@@ -57,6 +57,6 @@ class Grapher extends GrapherHook
 
         $html = '<div class="icinga-module module-businessprocess"><h2>Business Process</h2>';
         $html = $html . $renderer->render() . '</div>';
-        return $html
+        return $html;
     }
 }
