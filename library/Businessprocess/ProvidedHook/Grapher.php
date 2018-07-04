@@ -15,27 +15,46 @@ use Icinga\Module\Monitoring\Object\Service;
 class Grapher extends GrapherHook
 {
 
+    /**
+     * @var $storage LegacyStorage
+     */
     private $storage;
 
+    /**
+     * Initialize storage
+     */
     public function init()
     {
         try {
             $this->storage = new LegacyStorage(
                 Config::module('businessprocess')->getSection('global')
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Ignore and don't display anything
         }
 
         $this->hasPreviews = true;
     }
 
+    /**
+     * Returns false if the MonitoredObject is not a service or the check_command is not icingacli-businessprocess
+     *
+     * @param MonitoredObject $object
+     * @return bool
+     */
     public function has(MonitoredObject $object)
     {
         return $object instanceof Service && $object->check_command == 'icingacli-businessprocess';
     }
 
 
+    /**
+     * Returns the rendered Tree-/TileRenderer HTML
+     *
+     * @param MonitoredObject $object
+     * @return string
+     * @throws \Icinga\Exception\ProgrammingError
+     */
     public function getPreviewHtml(MonitoredObject $object)
     {
         if (!$this->has($object) || !$this->storage) {
